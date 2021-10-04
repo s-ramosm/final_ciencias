@@ -1,0 +1,26 @@
+from django.http.response import JsonResponse
+from django.views.decorators.csrf import csrf_protect,csrf_exempt
+import json
+from DAO import dao{{entity.name|capitalize}}
+
+
+
+
+
+def create{{entity.name|capitalize}} (request):
+
+    if request.method == "POST" :
+
+        {% for property in entity.properties %}
+        {{property.name}} = request.POST.get("{{property.name}}")
+
+        {% endfor %}
+
+        dao{{entity.name|capitalize}}.create({% for property in entity.properties %}{{property.name}},{% endfor %})
+
+        return JsonResponse(
+            {"state" : "complete"}
+        )
+
+
+
